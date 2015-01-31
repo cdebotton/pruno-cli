@@ -13,7 +13,7 @@ var App = React.createClass({
   },
 
   componentDidMount() {
-    this.listenTo(AppStore, onStoreChange);
+    this.listenTo(AppStore, this.onStoreChange);
   },
 
   onStoreChange() {
@@ -33,8 +33,8 @@ var App = React.createClass({
         <title>My Application</title>
       </head>
       <body>
-        <h1 className={cx}>Hello, World!</h1>
-        <p>Active? {this.state.toggle}</p>
+        <h2 className={cx}>Hello, World!</h2>
+        <p>Active? {this.state.toggle ? 'Yes' : 'No'}.</p>
         <RouteHandler />
       </body>
       </html>
