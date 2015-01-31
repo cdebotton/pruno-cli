@@ -1,5 +1,5 @@
 import AppActionCreators from "../actions/AppActionCreators";
-import {flux} from "../flux";
+import flux from "../flux";
 
 class AppStore {
   constructor() {
