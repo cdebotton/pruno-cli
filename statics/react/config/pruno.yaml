@@ -1,6 +1,6 @@
 vars:
-  src: ./app
-  dist: ./public
+  src: ./src
+  dist: ./dist
 
 js:
   es6: true
