@@ -1,3 +1,3 @@
 import {Flux} from "fluxd";
 
-export default new Fluxd();
+export default new Flux();

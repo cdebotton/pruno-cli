@@ -1,7 +1,7 @@
 import program from 'commander';
 import requireDir from 'require-dir';
 
-let {version} = require('../package.json');
+let {version} = require('./package.json');
 
 program.version(version);
 

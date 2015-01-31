@@ -31,13 +31,14 @@ var generateReact = (options) => {
     'gulp',
     'pruno-js',
     'pruno-stylus',
-    'pruno-http'
-    // 'pruno-publish'
+    'pruno-http',
+    'pruno-publish',
+    'pruno-jade'
     ])
     .then(() => log('Installed build tools for React.'))
     .catch(err => log(err));
 
-  cp('-R', join(__dirname, '..', 'statics', 'react', '*'), pwd());
+  cp('-Rf', join(__dirname, '..', 'statics', 'react', '*'), pwd());
 }
 
 var generateDefaults = (options) => {
@@ -47,5 +48,5 @@ var generateDefaults = (options) => {
     ])
     .then(() => log('Installed build tools'));
 
-  cp('-R', join(__dirname, '..', 'statics', 'defaults', '*'), pwd());
+  cp('-Rf', join(__dirname, '..', 'statics', 'defaults', '*'), pwd());
 };

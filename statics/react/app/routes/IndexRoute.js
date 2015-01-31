@@ -1,5 +1,5 @@
 import React from "react";
-import AppActionCreators from "./actions/AppActionCreators";
+import AppActionCreators from "../actions/AppActionCreators";
 
 var IndexRoute = React.createClass({
   onActivate() {

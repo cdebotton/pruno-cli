@@ -1,6 +1,6 @@
 import React from "react/addons";
 import {RouteHandler} from "react-router";
-import AppStore from "./stores/AppStore";
+import AppStore from "../stores/AppStore";
 import {StoreListenerMixin} from "fluxd";
 
 var {classSet} = React.addons;

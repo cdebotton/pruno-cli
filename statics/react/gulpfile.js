@@ -10,5 +10,6 @@ pruno(function(mix) {
     .publish()
     .js()
     .stylus()
+    .jade()
     .http();
 });
