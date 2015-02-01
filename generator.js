@@ -2,9 +2,11 @@ import {compile} from "handlebars";
 import assign from "object-assign";
 import {join} from "path";
 import {pwd, rm} from "shelljs";
-import buildPath from "./utils/build-path";
 import {readFileSync, existsSync} from "fs";
+import inflection from "inflection";
+import buildPath from "./utils/build-path";
 import Logger from "./logger";
+import colors from "colors";
 
 export default class Generator {
   static config(params) {
@@ -72,5 +74,22 @@ export default class Generator {
       'Generator should not be instantiated, please use ' +
       'the static methods that it provides.'
     );
+  }
+
+  static store(params) {
+    let hbsPath = join(__dirname, 'templates', 'Store.js.hbs');
+    let hbs = readFileSync(hbsPath).toString();
+    let tpl = compile(hbs);
+    let {src} = require(join(pwd(), '.prunorc'));
+
+    var params = {
+      name: inflection.transform(params.name, ['classify', 'singularize']),
+      actions: params.actions.map(act => {
+        return inflection.transform(`${act}_action_creators`, ['classify', 'singularize']);
+      })
+    };
+
+    Logger.log('Creating', `${src}/stores/${params.name}Store.js`.yellow.underline + '.');
+    tpl(params).to(join(pwd(), src, 'stores', `${params.name}Store.js`));
   }
 }
