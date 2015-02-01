@@ -24,8 +24,11 @@ let install = (method, packages) => {
         log('Installed', deps, 'with ', method.green);
         resolve(response);
       })
-      .stdout.on('data', (data) => {
-        console.log(data.toString());
-      });
+      // .stdout.on('data', (data) => {
+      //   console.log(data.toString());
+      // })
+      // .stdout.on('error', (err) => {
+      //   console.error(error.toString());
+      // });
   });
 };

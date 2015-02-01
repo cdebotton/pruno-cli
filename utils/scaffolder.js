@@ -12,14 +12,6 @@ export default function (scaffold, options) {
       generateDefaults(options);
       break;
   }
-
-  if (join(pwd(), 'app') !== join(pwd(), options.src)) {
-    mv('-f', join(pwd(), 'app'), options.src);
-  }
-
-  if (join(pwd(), 'config') !== join(pwd(), options.config)) {
-    mv('-f', join(pwd(), 'config'), options.config);
-  }
 }
 
 var generateReact = (options) => {
@@ -32,8 +24,6 @@ var generateReact = (options) => {
     .catch(err => log(err));
 
   saveDev([
-    'pruno',
-    'gulp',
     'pruno-js',
     'pruno-stylus',
     'pruno-http',
@@ -43,15 +33,11 @@ var generateReact = (options) => {
     .then(() => log('Installed build tools for React.'))
     .catch(err => log(err));
 
-  cp('-Rf', join(__dirname, '..', 'statics', 'react', '*'), pwd());
+  cp('-Rf', join(__dirname, '..', 'statics', 'react', 'config', '*'), join(pwd(), options.config));
+  cp('-Rf', join(__dirname, '..', 'statics', 'react', 'app', '*'), join(pwd(), options.src));
 }
 
 var generateDefaults = (options) => {
-  saveDev([
-    'pruno',
-    'gulp'
-    ])
-    .then(() => log('Installed build tools'));
-
-  cp('-Rf', join(__dirname, '..', 'statics', 'defaults', '*'), pwd());
+  cp('-Rf', join(__dirname, '..', 'statics', 'defaults', 'config', '*'), join(pwd(), options.config));
+  cp('-Rf', join(__dirname, '..', 'statics', 'defaults', 'app', '*'), join(pwd(), options.src));
 };

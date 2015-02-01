@@ -10,8 +10,13 @@ Executing `pruno --help` will list the available commands.
 
   Commands:
 
-    init [options] <name> [scaffold]  Initialize Pruno for this project.
-    [...commands] [options]           undefined
+    add <mix>                                        Install and configure a new pruno-mix.
+    generate:actions <name> [...actions]             Generate a set of flux actions.
+    generate:component [options] <name> [...mixins]  Generate a React component.
+    generate:mixin <name>                            Generate a React mixin.
+    generate:store <name> [...actions]               Generate a flux store, optionally include the names of the ActionCreators you would like to bind.
+    init [options] [scaffold]                        Initialize Pruno for this project.
+    sandbox                                          Start up a sandbox session and interact with your application via the CLI.
 
   Options:
 

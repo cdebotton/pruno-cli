@@ -1,4 +1,5 @@
 import {compile} from "handlebars";
+import assign from "object-assign";
 import {join} from "path";
 import {pwd} from "shelljs";
 import buildPath from "./utils/build-path";
@@ -36,13 +37,37 @@ export default class Generator {
     let hbsPath = join(__dirname, 'templates', 'gulpfile.js.hbs');
     let hbs = readFileSync(hbsPath).toString();
     let tpl = compile(hbs);
-
+    let {dependencies, devDependencies} = module.parent.require(
+      join(pwd(), 'package.json')
+    );
     let opts = Object.assign({}, params, {
-      config: params.config.match(/^(?:\.)(.+)$/)[1]
+      config: params.config.match(/^(?:\.)(.+)$/)[1],
+      mixes: Object.keys(
+          assign({}, (dependencies || {}), (devDependencies || {})
+        ))
+        .filter(mod => /^pruno\-(.+)/.exec(mod))
+        .map(mix => mix.match(/pruno\-(.+)$/)[1]) || []
     });
+
+    console.log(opts);
 
     Logger.log('Creating gulpfile', join(pwd(), 'gulpfile.js').underline.yellow);
     tpl(opts).to(join(pwd(), 'gulpfile.js'));
+  }
+
+  static rc(params) {
+    let hbsPath = join(__dirname, 'templates', '.prunorc.hbs');
+    let hbs = readFileSync(hbsPath).toString();
+    let tpl = compile(hbs);
+
+    let params = {
+      src: params.src,
+      dist: params.dist,
+      config: params.config
+    };
+
+    Logger.log('Creating .prunorc');
+    tpl(params).to('.prunorc');
   }
 
   constructor() {
