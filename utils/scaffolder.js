@@ -25,7 +25,10 @@ var generateReact = (options) => {
     .then(() => log('Installed front-end assets for React.'))
     .catch(err => log(err));
 
-  addMixes(['js', 'stylus', 'http', 'publish', 'jade'], options);
+  addMixes(['js', 'stylus', 'http', 'publish', 'jade'], {
+    js: {es6: true},
+    stylus: {normalize: true, 'font-awesome': true}
+  });
 
   cp('-Rf', join(__dirname, '..', 'statics', 'react', 'config', '*'), join(pwd(), options.config));
   cp('-Rf', join(__dirname, '..', 'statics', 'react', 'app', '*'), join(pwd(), options.src));

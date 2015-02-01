@@ -37,17 +37,17 @@ export default class Generator {
     let hbsPath = join(__dirname, 'templates', 'gulpfile.js.hbs');
     let hbs = readFileSync(hbsPath).toString();
     let tpl = compile(hbs);
-    let {dependencies, devDependencies} = require(
-      join(pwd(), 'package.json')
+    let {dependencies, devDependencies} = JSON.parse(
+      readFileSync(join(pwd(), 'package.json'))
     );
-    let opts = Object.assign({}, params, {
+    let opts = {
       config: params.config.match(/^(?:\.)(.+)$/)[1],
       mixes: Object.keys(
           assign({}, (dependencies || {}), (devDependencies || {})
         ))
         .filter(mod => /^pruno\-(.+)/.exec(mod))
         .map(mix => mix.match(/pruno\-(.+)$/)[1]) || []
-    });
+    };
     Logger.log('Creating gulpfile', join(pwd(), 'gulpfile.js').underline.yellow);
     tpl(opts).to(join(pwd(), 'gulpfile.js'));
   }

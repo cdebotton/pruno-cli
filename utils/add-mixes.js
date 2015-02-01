@@ -25,8 +25,10 @@ export default (mixes, options = {}) => {
         let Task = require(join(pkgPath, main));
         let defaults = Task.getDefaults();
         let mix = pkg.match(/pruno\-(.+)$/)[1];
-
         opts[mix] = defaults;
+        if (options[mix]) {
+          assign(opts[mix], options[mix]);
+        }
       });
       let yaml = YAML.safeDump(opts);
       writeFileSync(yamlPath, yaml);

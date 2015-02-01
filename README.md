@@ -1,4 +1,9 @@
 ## CLI tool (global)
+This is a command-line tool for scaffolding projects that use the pruno build tool. This is a very, (very) early release and the general functionality is still worked out. Much of what you see in this README.md includes planned but unfinished commands. What currently works are:
+
+- Initializing empty pruno projects.
+- Initializing a react/flux scaffold (no backend).
+- Adding pruno mixes via the command line, automatically modifying your ./config/pruno.yaml and your ./gulpfile.js
 
 ### Commands
 By running `npm install -g pruno`, you will be given access to the pruno terminal command.
