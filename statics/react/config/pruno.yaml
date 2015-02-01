@@ -1,12 +1,3 @@
 vars:
-  src: ./src
-  dist: ./dist
-
-js:
-  es6: true
-  source-maps: true
-
-stylus:
-  normalize: true
-  font-awesome: true
-  source-maps: true
+  src: "./src"
+  dist: "./dist"

@@ -2,6 +2,8 @@ import {pwd, cp, mv} from "shelljs";
 import {join} from "path";
 import {save, saveDev} from "../utils/install";
 import buildPath from "../utils/build-path";
+import addMixes from "../utils/add-mixes";
+import Generator from "../generator";
 
 export default function (scaffold, options) {
   switch(scaffold) {
@@ -23,15 +25,7 @@ var generateReact = (options) => {
     .then(() => log('Installed front-end assets for React.'))
     .catch(err => log(err));
 
-  saveDev([
-    'pruno-js',
-    'pruno-stylus',
-    'pruno-http',
-    'pruno-publish',
-    'pruno-jade'
-    ])
-    .then(() => log('Installed build tools for React.'))
-    .catch(err => log(err));
+  addMixes(['js', 'stylus', 'http', 'publish', 'jade'], options);
 
   cp('-Rf', join(__dirname, '..', 'statics', 'react', 'config', '*'), join(pwd(), options.config));
   cp('-Rf', join(__dirname, '..', 'statics', 'react', 'app', '*'), join(pwd(), options.src));
