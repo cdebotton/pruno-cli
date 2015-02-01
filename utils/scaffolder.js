@@ -13,8 +13,13 @@ export default function (scaffold, options) {
       break;
   }
 
-  mv('-f', join(pwd(), 'app'), options.src);
-  mv('-f', join(pwd(), 'config'), options.config);
+  if (join(pwd(), 'app') !== join(pwd(), options.src)) {
+    mv('-f', join(pwd(), 'app'), options.src);
+  }
+
+  if (join(pwd(), 'config') !== join(pwd(), options.config)) {
+    mv('-f', join(pwd(), 'config'), options.config);
+  }
 }
 
 var generateReact = (options) => {
