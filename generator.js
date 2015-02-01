@@ -16,18 +16,34 @@ export default class Generator {
     tpl(params).to(join(params.config, 'pruno.yaml'));
   }
 
- static gulpfile(params) {
-  let hbsPath = join(__dirname, 'templates', 'gulpfile.js.hbs');
-  let hbs = readFileSync(hbsPath).toString();
-  let tpl = compile(hbs);
+  static packageJson(params) {
+    let hbsPath = join(__dirname, 'templates', 'package.json.hbs');
+    let hbs = readFileSync(hbsPath).toString();
+    let tpl = compile(hbs);
 
-  let opts = Object.assign({}, params, {
-    config: params.config.match(/^(?:\.)(.+)$/)[1]
-  });
+    let params = {
+      name: pwd().split('/').pop(),
+      author: 'pruno',
+      description: 'New Pruno application',
+      version: "0.1.0"
+    };
 
-  Logger.log('Creating gulpfile', join(pwd(), 'gulpfile.js').underline.yellow);
-  tpl(opts).to(join(pwd(), 'gulpfile.js'));
- }
+    Logger.log('Creating package.json');
+    tpl(params).to('package.json');
+  }
+
+  static gulpfile(params) {
+    let hbsPath = join(__dirname, 'templates', 'gulpfile.js.hbs');
+    let hbs = readFileSync(hbsPath).toString();
+    let tpl = compile(hbs);
+
+    let opts = Object.assign({}, params, {
+      config: params.config.match(/^(?:\.)(.+)$/)[1]
+    });
+
+    Logger.log('Creating gulpfile', join(pwd(), 'gulpfile.js').underline.yellow);
+    tpl(opts).to(join(pwd(), 'gulpfile.js'));
+  }
 
   constructor() {
     throw new Error(

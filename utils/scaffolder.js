@@ -14,7 +14,7 @@ export default function (scaffold, options) {
   }
 
   mv('-f', join(pwd(), 'app'), options.src);
-  mv('-f', join(pwd(), 'config', options.config));
+  mv('-f', join(pwd(), 'config'), options.config);
 }
 
 var generateReact = (options) => {
