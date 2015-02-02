@@ -31,7 +31,7 @@ export default class Generator {
       version: "0.1.0"
     };
 
-    Logger.log('Creating package.json');
+    Logger.log('Creating', 'package.json'.yellow.underline);
     tpl(params).to('package.json');
   }
 
@@ -62,10 +62,11 @@ export default class Generator {
     let params = {
       src: params.src,
       dist: params.dist,
-      config: params.config
+      config: params.config,
+      type: params.type.toLowerCase()
     };
 
-    Logger.log('Creating .prunorc');
+    Logger.log('Creating', '.prunorc'.yellow.underline);
     tpl(params).to('.prunorc');
   }
 

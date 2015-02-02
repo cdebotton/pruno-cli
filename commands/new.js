@@ -4,32 +4,52 @@ import {log} from "../logger";
 import {saveDev} from "../utils/install";
 import Generator from "../generator";
 import scaffolder from "../utils/scaffolder";
+import inquirer from "inquirer";
 
-let init = (program) => program.command('new [scaffold]')
+let init = (program) => program.command('new')
   .description('Initialize Pruno for this project.')
   .alias('n')
-  // .option('-s, --src <src>', 'Where would you like to store the pre-compiled source files?', './src')
-  // .option('-d, --dist <dist>', 'Where would you like to store the compiled project files?', './dist')
-  // .option('-c, --config <config>', 'Where is the pruno config located?', './config')
-  .action((scaffold = false, options = {}) => {
+  .action(() => {
+    inquirer.prompt([{
+      type: 'list',
+      name: 'type',
+      message: 'What type of project would you like to create?',
+      choices: ['Basic', new inquirer.Separator(), 'React', 'Backbone'],
+      default: 'Basic'
+    }, {
+      type: 'input',
+      name: 'src',
+      message: 'Where would you like your source assets to be read from?',
+      default: './src'
+    }, {
+      type: 'input',
+      name: 'dist',
+      message: 'Where would you like compiled assets to be stored?',
+      default: './dist'
+    }, {
+      type: 'input',
+      name: 'config',
+      message: 'Where would you like to store your app config yaml files?',
+      default: './config'
+    }], params => {
+      log('Initializing pruno.');
+      // Create .prunorc file
+      Generator.rc(params);
 
-    log('Initializing pruno.');
-    // Create .prunorc file
-    Generator.rc(options);
+      // Create package.json file
+      Generator.packageJson(params);
 
-    // Create package.json file
-    Generator.packageJson(options);
+      // Generate gulpfile.js
+      Generator.gulpfile(params);
 
-    // Generate gulpfile.js
-    Generator.gulpfile(options);
+      // Generate config file
+      Generator.config(params);
 
-    // Generate config file
-    Generator.config(options);
+      // Scaffold React project
+      scaffolder(params.type, params);
 
-    // Scaffold React project
-    scaffolder(scaffold, options);
-
-    saveDev(['pruno', 'gulp']);
+      saveDev(['pruno', 'gulp']);
+    });
   });
 
 export default init;

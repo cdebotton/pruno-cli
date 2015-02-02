@@ -6,7 +6,7 @@ import addMixes from "../utils/add-mixes";
 import Generator from "../generator";
 
 export default function (scaffold, options) {
-  switch(scaffold) {
+  switch(scaffold.toLowerCase()) {
     case 'backbone':
       generateBackbone(options);
       break;
