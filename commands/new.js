@@ -1,15 +1,20 @@
-import {resolve} from "path";
-import {pwd} from "shelljs";
+import inquirer from "inquirer";
+import {existsSync} from "fs";
+import {resolve, join} from "path";
+import {pwd, echo, exit} from "shelljs";
 import {log} from "../logger";
 import {saveDev} from "../utils/install";
 import Generator from "../generator";
 import scaffolder from "../utils/scaffolder";
-import inquirer from "inquirer";
 
 let init = (program) => program.command('new')
   .description('Initialize Pruno for this project.')
   .alias('n')
   .action(() => {
+    if (existsSync(join(pwd(), '.prunorc'))) {
+      echo('Pruno has already been initialized in this directory.');
+      exit(1);
+    }
     inquirer.prompt([{
       type: 'list',
       name: 'type',
