@@ -46,7 +46,7 @@ var generateBackbone = (options) => {
   .then(() => log('Installed front-end assets for Backbone.'))
   .catch(err => log(err));
 
-  saveDev(['hbsfy']);
+  saveDev(['hbsfy', 'handlebars']);
 
   addMixes(['js', 'stylus', 'http', 'publish', 'jade'], {
     js: {es6: true, handlebars: true},
