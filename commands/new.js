@@ -5,11 +5,12 @@ import {saveDev} from "../utils/install";
 import Generator from "../generator";
 import scaffolder from "../utils/scaffolder";
 
-let init = (program) => program.command('init [scaffold]')
+let init = (program) => program.command('new [scaffold]')
   .description('Initialize Pruno for this project.')
-  .option('-s, --src <src>', 'Where would you like to store the pre-compiled source files?', './src')
-  .option('-d, --dist <dist>', 'Where would you like to store the compiled project files?', './dist')
-  .option('-c, --config <config>', 'Where is the pruno config located?', './config')
+  .alias('n')
+  // .option('-s, --src <src>', 'Where would you like to store the pre-compiled source files?', './src')
+  // .option('-d, --dist <dist>', 'Where would you like to store the compiled project files?', './dist')
+  // .option('-c, --config <config>', 'Where is the pruno config located?', './config')
   .action((scaffold = false, options = {}) => {
 
     log('Initializing pruno.');
