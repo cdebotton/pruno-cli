@@ -7,6 +7,9 @@ import Generator from "../generator";
 
 export default function (scaffold, options) {
   switch(scaffold) {
+    case 'backbone':
+      generateBackbone(options);
+      break;
     case 'react':
       generateReact(options);
       break;
@@ -32,7 +35,26 @@ var generateReact = (options) => {
 
   cp('-Rf', join(__dirname, '..', 'statics', 'react', 'config', '*'), join(pwd(), options.config));
   cp('-Rf', join(__dirname, '..', 'statics', 'react', 'app', '*'), join(pwd(), options.src));
-}
+};
+
+var generateBackbone = (options) => {
+  save([
+    'backbone',
+    'jquery',
+    'lodash'
+  ])
+  .then(() => log('Installed front-end assets for Backbone.'))
+  .catch(err => log(err));
+
+  saveDev(['hbsfy']);
+
+  addMixes(['js', 'stylus', 'http', 'publish', 'jade'], {
+    js: {es6: true, handlebars: true},
+    stylus: {normalize: true, 'font-awesome': true}
+  });
+
+  cp('-Rf', join(__dirname, '..', 'statics', 'backbone', 'app', '*'), join(pwd(), options.src));
+};
 
 var generateDefaults = (options) => {
   cp('-Rf', join(__dirname, '..', 'statics', 'defaults', 'config', '*'), join(pwd(), options.config));
