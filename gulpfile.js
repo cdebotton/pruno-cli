@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var to5 = require('gulp-6to5');
+var plumber = require('gulp-plumber');
 var del = require('del');
 
 gulp.task('del', function(cb) {
@@ -11,6 +12,7 @@ gulp.task('del', function(cb) {
 gulp.task('to5', function() {
   gulp.src(['!./src/frameworks/**/app/**/*', './src/**/*.js'])
     .pipe(to5())
+    .pipe(plumber())
     .pipe(gulp.dest('./bin/'));
 
   gulp.src(['./src/frameworks/**/app/**/*'])
@@ -23,7 +25,7 @@ gulp.task('to5', function() {
     .pipe(gulp.dest('./bin/'));
 });
 
-gulp.task('default', ['del', 'to5']);
+gulp.task('default', ['to5']);
 
 gulp.task('watch', function() {
   gulp.watch(['./src/**/*'], ['default']);
