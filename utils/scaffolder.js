@@ -33,8 +33,8 @@ var generateReact = (options) => {
     stylus: {normalize: true, 'font-awesome': true}
   });
 
-  cp('-Rf', join(__dirname, '..', 'statics', 'react', 'config', '*'), join(pwd(), options.config));
-  cp('-Rf', join(__dirname, '..', 'statics', 'react', 'app', '*'), join(pwd(), options.src));
+  cp('-Rf', join(__dirname, '..', 'frameworks', 'react', 'config', '*'), join(pwd(), options.config));
+  cp('-Rf', join(__dirname, '..', 'frameworks', 'react', 'app', '*'), join(pwd(), options.src));
 };
 
 var generateBackbone = (options) => {
@@ -53,10 +53,10 @@ var generateBackbone = (options) => {
     stylus: {normalize: true, 'font-awesome': true}
   });
 
-  cp('-Rf', join(__dirname, '..', 'statics', 'backbone', 'app', '*'), join(pwd(), options.src));
+  cp('-Rf', join(__dirname, '..', 'frameworks', 'backbone', 'app', '*'), join(pwd(), options.src));
 };
 
 var generateDefaults = (options) => {
-  cp('-Rf', join(__dirname, '..', 'statics', 'defaults', 'config', '*'), join(pwd(), options.config));
-  cp('-Rf', join(__dirname, '..', 'statics', 'defaults', 'app', '*'), join(pwd(), options.src));
+  cp('-Rf', join(__dirname, '..', 'frameworks', 'defaults', 'config', '*'), join(pwd(), options.config));
+  cp('-Rf', join(__dirname, '..', 'frameworks', 'defaults', 'app', '*'), join(pwd(), options.src));
 };

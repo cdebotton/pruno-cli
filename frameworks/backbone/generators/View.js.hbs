@@ -1,0 +1,16 @@
+import {View} from "backbone";
+
+export View.extend({
+    template: require('../hbs/{{tplName}}.hbs'),
+    events: {
+
+    },
+
+    render() {
+      var ctx = this.model.toJSON();
+      var html = this.template(ctx);
+
+      this.$el.html(html);
+      return this;
+    }
+});
