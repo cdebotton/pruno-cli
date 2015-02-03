@@ -1,10 +1,6 @@
-"use strict";
+import {Collection} from "backbone";
+import ItemModel from "../models/ItemModel";
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-var Collection = require("backbone").Collection;
-var ItemModel = _interopRequire(require("../models/ItemModel"));
-
-module.exports = Collection.extend({
+export default Collection.extend({
   model: ItemModel
 });

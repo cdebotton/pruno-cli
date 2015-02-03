@@ -1,21 +1,13 @@
-"use strict";
+import React from "react";
+import {Route, DefaultRoute} from "react-router";
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+import App from "../components/App";
+import IndexRoute from "../routes/IndexRoute";
 
-var React = _interopRequire(require("react"));
-
-var _reactRouter = require("react-router");
-
-var Route = _reactRouter.Route;
-var DefaultRoute = _reactRouter.DefaultRoute;
-var App = _interopRequire(require("../components/App"));
-
-var IndexRoute = _interopRequire(require("../routes/IndexRoute"));
-
-var routes = React.createElement(
-  Route,
-  { handler: App },
-  React.createElement(DefaultRoute, { name: "index", handler: IndexRoute })
+const routes = (
+  <Route handler={App}>
+    <DefaultRoute name="index" handler={IndexRoute} />
+  </Route>
 );
 
-module.exports = routes;
+export default routes;

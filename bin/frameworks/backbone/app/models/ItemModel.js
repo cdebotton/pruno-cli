@@ -1,8 +1,7 @@
-"use strict";
+import {Model} from "backbone";
 
-var Model = require("backbone").Model;
-module.exports = Model.extend({
+export default Model.extend({
   defaults: {
-    name: "Item"
+    name: 'Item'
   }
 });

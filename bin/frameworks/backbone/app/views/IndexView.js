@@ -1,46 +1,46 @@
-"use strict";
+import {View} from "backbone";
+import router from "../routers/AppRouter";
+import ItemsCollection from "../collections/ItemsCollection";
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var items = new ItemsCollection([
+  {name: 'Item 1'},
+  {name: 'Item 2'},
+  {name: 'Item 3'}
+]);
 
-var View = require("backbone").View;
-var router = _interopRequire(require("../routers/AppRouter"));
-
-var ItemsCollection = _interopRequire(require("../collections/ItemsCollection"));
-
-var items = new ItemsCollection([{ name: "Item 1" }, { name: "Item 2" }, { name: "Item 3" }]);
-
-module.exports = View.extend({
+export default View.extend({
   el: "#route-handler",
-  template: require("../hbs/index.hbs"),
+  template: require('../hbs/index.hbs'),
 
   events: {
-    "submit form": "onSubmit"
+    'submit form': 'onSubmit'
   },
 
-  initialize: function initialize() {
-    this.listenTo(items, "add", this.render);
-    this.listenTo(items, "remove", this.render);
-    this.listenTo(router, "route", this.route.bind(this));
+  initialize() {
+    this.listenTo(items, 'add', this.render);
+    this.listenTo(items, 'remove', this.render);
+    this.listenTo(router, 'route', this.route.bind(this));
   },
 
-  route: function route(route) {
-    if (route === "index") {
+  route(route) {
+    if (route === 'index') {
       this.render();
       this.delegateEvents();
-    } else {
+    }
+    else {
       this.undelegateEvents();
     }
   },
 
-  onSubmit: function onSubmit(event) {
+  onSubmit(event) {
     event.preventDefault();
-    var field = this.$("[name=\"newItem\"]");
+    var field = this.$('[name="newItem"]');
     var item = field.val();
-    field.val("");
-    items.add({ name: item });
+    field.val('');
+    items.add({name: item});
   },
 
-  render: function render() {
+  render() {
     var ctx = this.model.toJSON();
     ctx.items = items.toJSON();
 

@@ -1,28 +1,25 @@
-"use strict";
+import {View} from "backbone";
+import router from "../routers/AppRouter";
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+export default View.extend({
+  el: '#route-handler',
+  template: require('../hbs/about.hbs'),
 
-var View = require("backbone").View;
-var router = _interopRequire(require("../routers/AppRouter"));
-
-module.exports = View.extend({
-  el: "#route-handler",
-  template: require("../hbs/about.hbs"),
-
-  initialize: function initialize() {
-    this.listenTo(router, "route", this.route.bind(this));
+  initialize() {
+    this.listenTo(router, 'route', this.route.bind(this));
   },
 
-  route: function route(route) {
-    if (route === "about") {
+  route(route) {
+    if (route === 'about') {
       this.render();
       this.delegateEvents();
-    } else {
+    }
+    else {
       this.undelegateEvents();
     }
   },
 
-  render: function render() {
+  render() {
     var ctx = this.model.toJSON();
     var html = this.template(ctx);
 

@@ -1,13 +1,10 @@
-"use strict";
-
-var Router = require("backbone").Router;
-
+import {Router} from "backbone";
 
 var AppRouter = Router.extend({
   routes: {
     "": "index",
-    about: "about"
+    "about": "about"
   }
 });
 
-module.exports = new AppRouter();
+export default new AppRouter;

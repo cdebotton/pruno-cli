@@ -1,51 +1,29 @@
-"use strict";
-
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-var React = _interopRequire(require("react"));
-
-var AppActionCreators = _interopRequire(require("../actions/AppActionCreators"));
+import React from "react";
+import AppActionCreators from "../actions/AppActionCreators";
 
 var IndexRoute = React.createClass({
-  displayName: "IndexRoute",
-  onActivate: function onActivate() {
+  onActivate() {
     AppActionCreators.activate();
   },
 
-  onDeactivate: function onDeactivate() {
+  onDeactivate() {
     AppActionCreators.deactivate();
   },
 
-  onToggle: function onToggle() {
+  onToggle() {
     AppActionCreators.toggle();
   },
 
-  render: function render() {
-    return React.createElement(
-      "div",
-      { className: "index-route" },
-      React.createElement(
-        "h2",
-        null,
-        "IndexRoute"
-      ),
-      React.createElement(
-        "button",
-        { onClick: this.onActivate },
-        "Activate"
-      ),
-      React.createElement(
-        "button",
-        { onClick: this.onDeactivate },
-        "Deactivate"
-      ),
-      React.createElement(
-        "button",
-        { onClick: this.onToggle },
-        "Toggle"
-      )
+  render() {
+    return (
+      <div className="index-route">
+        <h2>IndexRoute</h2>
+        <button onClick={this.onActivate}>Activate</button>
+        <button onClick={this.onDeactivate}>Deactivate</button>
+        <button onClick={this.onToggle}>Toggle</button>
+      </div>
     );
   }
 });
 
-module.exports = IndexRoute;
+export default IndexRoute;

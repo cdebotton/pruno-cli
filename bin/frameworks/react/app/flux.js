@@ -1,4 +1,3 @@
-"use strict";
+import {Flux} from "fluxd";
 
-var Flux = require("fluxd").Flux;
-module.exports = new Flux();
+export default new Flux();
