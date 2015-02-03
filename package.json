@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/cdebotton/pruno-cli",
   "dependencies": {
-    "6to5": "^3.2.0",
     "bluebird": "^2.9.6",
     "colors": "^1.0.3",
     "commander": "^2.6.0",
