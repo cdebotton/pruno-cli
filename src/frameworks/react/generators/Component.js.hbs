@@ -1,0 +1,34 @@
+import React from "react";{{#if stores}}{{#each stores}}
+import {{this}} from "../stores/{{this}}.js";
+{{/each}}{{/if}}
+
+var {{name}} = React.createClass({ {{#if mixins}}
+  mixins: [{{mixins}}],{{/if}}
+
+  getInitialState() {
+    return {};
+  },
+
+  getDefaultProps() {
+    return {};
+  },
+
+  {{#if stores}}componentDidMount() {
+    {{#each stores}}this.listenTo({{this}}, this.onStoreChange);
+    {{/each}}
+  },
+
+  onStoreChange() {
+    this.setState(this.getInitialState());
+  },{{/if}}
+
+  render() {
+    return (
+      <div className="{{className}}">
+
+      </div>
+    )
+  }
+});
+
+export default {{name}};

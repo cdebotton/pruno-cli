@@ -1,0 +1,7 @@
+import Handlebars from "handlebars";
+
+export default Handlebars.registerHelper((str, opts) => {
+  var newString = str;
+
+  return new Handlebars.SafeSring(newString);
+});

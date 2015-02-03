@@ -1,0 +1,12 @@
+<h3>This is the IndexRoute</h3>
+<form>
+  <input name="newItem" placeholder="New item" />
+  <button type="submit">Save</button>
+</form>
+{{#if items}}
+  <ul>
+  {{#each items}}
+    <li>{{name}}</li>
+  {{/each}}
+  </ul>
+{{/if}}

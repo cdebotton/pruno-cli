@@ -28,6 +28,7 @@
   "homepage": "https://github.com/cdebotton/pruno-cli",
   "dependencies": {
     "6to5": "^3.2.0",
+    "bluebird": "^2.9.6",
     "colors": "^1.0.3",
     "commander": "^2.6.0",
     "handlebars": "^2.0.0",
@@ -38,5 +39,9 @@
     "object-assign": "^2.0.0",
     "require-dir": "^0.1.0",
     "shelljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-6to5": "^3.0.0"
   }
 }
