@@ -199,7 +199,8 @@ class ReactGenerator {
     inquirer.prompt([{
       type: 'confirm',
       name: 'takesParams',
-      message: 'Does this mixin take parameters?'
+      message: 'Does this mixin take parameters?',
+      default: false
     }], (params) => {
       var {takesParams} = params;
       var opts = {mixinName, takesParams};
