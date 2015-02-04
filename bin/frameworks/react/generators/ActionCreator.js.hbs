@@ -3,7 +3,8 @@ import flux from "..";
 class {{name}}ActionCreators {
   constructor() {
     {{#if actions}}this.generateActions({{#each actions}}
-    '{{this}}'{{/each}}){{/if}}
+      '{{this}}'{{/each}}
+    ){{/if}}
   }
 }
 

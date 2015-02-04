@@ -172,6 +172,32 @@ var ReactGenerator = (function () {
       writable: true,
       configurable: true
     },
+    onCreateActions: {
+      value: function onCreateActions(name, options) {
+        var _this = this;
+        var actionsName = inflection.transform(name.replace(/-/g, "_"), ["classify"]) + "ActionCreators";
+
+        inquirer.prompt([{
+          name: "actions",
+          type: "input",
+          message: "What actions would you like to generate? (Separate with spaces)"
+        }], function (params) {
+          var opts = {
+            actionsName: actionsName,
+            actions: params.actions ? params.actions.split(" ") : false
+          };
+
+          var contents = _this.renderData("ActionCreator.js.hbs", opts);
+          var target = path.join(pwd(), _this.config.src, "actions", actionsName + ".js");
+
+          fs.writeFileSync(target, contents);
+
+          log("Created", target.yellow.underline + ".");
+        });
+      },
+      writable: true,
+      configurable: true
+    },
     renderData: {
       value: function renderData(tplFile, opts) {
         var hbsPath = path.join(__dirname, "generators", tplFile);

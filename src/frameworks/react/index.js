@@ -134,7 +134,35 @@ class ReactGenerator {
       opts.storeName = storeName;
 
       var contents = this.renderData('Store.js.hbs', opts);
-      var target = path.join(pwd(), this.config.src, 'stores', storeName + '.js');
+      var target = path.join(
+        pwd(), this.config.src, 'stores', storeName + '.js'
+      );
+
+      fs.writeFileSync(target, contents);
+
+      log('Created', target.yellow.underline + '.');
+    });
+  }
+
+  onCreateActions(name, options) {
+    var actionsName = inflection.transform(
+      name.replace(/-/g, '_'), ['classify']
+    ) + 'ActionCreators';
+
+    inquirer.prompt([{
+      name: 'actions',
+      type: 'input',
+      message: 'What actions would you like to generate? (Separate with spaces)'
+    }], (params) => {
+      var opts = {
+        actionsName: actionsName,
+        actions: params.actions ? params.actions.split(' ') : false
+      };
+
+      var contents = this.renderData('ActionCreator.js.hbs', opts);
+      var target = path.join(
+        pwd(), this.config.src, 'actions', actionsName + '.js'
+      );
 
       fs.writeFileSync(target, contents);
 
