@@ -1,4 +1,4 @@
-import flux from "..";{{#if actions}}{{#each actions}}
+import flux from "../flux";{{#if actions}}{{#each actions}}
 import {{this}} from "../actions/{{this}}";{{/each}}{{/if}}
 
 class {{storeName}} {

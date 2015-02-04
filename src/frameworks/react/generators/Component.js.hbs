@@ -25,7 +25,7 @@ var {{componentName}} = React.createClass({ {{#if mixins}}
   getInitialState() {
 {{#if stores}}
     {{#each stores}}
-    var {{storeState this}} = {{this}}.getState().state;
+    var {{storeState this}} = {{this}}.getState();
     {{/each}}
     {{/if}}
 {{#if isRouteHandler}}    var params = this.getParams();
