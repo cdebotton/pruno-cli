@@ -17,16 +17,36 @@ Executing `pruno --help` will list the available commands.
 
   Commands:
 
-    generate|g <action> <name>  Generate a new component.
-    install|i <mixes...>        Install and configure a new pruno-mix.
-    new|n                       Initialize Pruno for this project.
-    sandbox                     Start up a sandbox session and interact with your application via the CLI.
-    uninstall|rm <mixes...>     Remove pruno mixes.
+    db:install <dbType>           Install Sequelize and setup database
+    db:migration <migrationName>  Create a new SQL migration.
+    db:migrate                    Run all pending migrations.
+    db:rollback                   Roll back migrations
+    generate|g <action> <name>    Generate a new component.
+    install|i <mixes...>          Install and configure a new pruno-mix.
+    new|n                         Initialize Pruno for this project.
+    sandbox                       Start up a sandbox session and interact with your application via the CLI.
+    uninstall|rm <mixes...>       Remove pruno mixes.
 
   Options:
 
     -h, --help     output usage information
     -V, --version  output the version number
+
+  Generators:
+
+    React:
+      $ pruno g react:component <componentName>
+      $ pruno g react:actions <actionsName>
+      $ pruno g react:store <storeName>
+      $ pruno g react:mixin <mixinName>
+
+    Backbone:
+      $ pruno g backbone:router <routerName>
+      $ pruno g backbone:view <viewName>
+      $ pruno g backbone:template <templateName>
+      $ pruno g backbone:model <modelName>
+      $ pruno g backbone:collection <collectionName>
+      $ pruno g backbone:helper <helperName>
 ```
 
 ### Client tools
