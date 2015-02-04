@@ -62,7 +62,7 @@ var BackboneGenerator = (function () {
 
         fs.writeFileSync(path.join(pwd(), this.config.src, "models", "" + modelName + ".js"), contents);
 
-        log("Created", ("" + this.config.src + "/models/" + modelName + ".js").yellow.underline);
+        log("Created", ("" + this.config.src + "/models/" + modelName + ".js").yellow.underline + ".");
       },
       writable: true,
       configurable: true
@@ -82,7 +82,7 @@ var BackboneGenerator = (function () {
 
         fs.writeFileSync(path.join(pwd(), this.config.src, "collections", "" + collectionName + ".js"), contents);
 
-        log("Created", ("" + this.config.src + "/collections/" + collectionName + ".js").yellow.underline);
+        log("Created", ("" + this.config.src + "/collections/" + collectionName + ".js").yellow.underline + ".");
       },
       writable: true,
       configurable: true
@@ -117,7 +117,7 @@ var BackboneGenerator = (function () {
 
         fs.writeFileSync(path.join(pwd(), this.config.src, "views", "" + viewName + ".js"), contents);
 
-        log("Created", ("" + this.config.src + "/views/" + viewName + ".js").yellow.underline);
+        log("Created", ("" + this.config.src + "/views/" + viewName + ".js").yellow.underline + ".");
       },
       writable: true,
       configurable: true
@@ -130,7 +130,7 @@ var BackboneGenerator = (function () {
 
         fs.writeFileSync(path.join(pwd(), this.config.src, "routers", "" + routerName + ".js"), contents);
 
-        log("Created", ("" + this.config.src + "/routers/" + routerName + ".js").yellow.underline);
+        log("Created", ("" + this.config.src + "/routers/" + routerName + ".js").yellow.underline + ".");
       },
       writable: true,
       configurable: true
@@ -143,7 +143,7 @@ var BackboneGenerator = (function () {
 
         fs.writeFileSync(path.join(pwd(), this.config.src, "helpers", "" + helperName + ".js"), contents);
 
-        log("Created", ("" + this.config.src + "/helpers/" + helperName + ".js").yellow.underline);
+        log("Created", ("" + this.config.src + "/helpers/" + helperName + ".js").yellow.underline + ".");
       },
       writable: true,
       configurable: true
@@ -182,6 +182,7 @@ var BackboneGenerator = (function () {
         var target = path.join(pwd(), this.config.src, pathPart);
 
         if (!fs.existsSync(target)) {
+          log("Creating directory", target.yellow.underline + ".");
           mkdir(target);
         }
       },

@@ -1,20 +1,23 @@
-import React from "react";{{#if stores}}{{#each stores}}
-import {{this}} from "../stores/{{this}}.js";
+import React from "react";{{#if stores}}
+{{#if stores}}import {StoreListenerMixin} from "fluxd";{{/if}}
+{{#each stores}}import {{this}} from "../stores/{{this}}.js";
 {{/each}}{{/if}}
-
-var {{name}} = React.createClass({ {{#if mixins}}
+var {{componentName}} = React.createClass({ {{#if mixins}}
   mixins: [{{mixins}}],{{/if}}
 
-  getInitialState() {
+  getInitialState() { {{#if stores}}{{#each stores}}
+    var {{camelcase this}} = {{this}}.getState().state;{{/each}}
+    {{/if}}
     return {};
   },
 
   getDefaultProps() {
     return {};
-  },
+  },{{#if stores}}
 
-  {{#if stores}}componentDidMount() {
-    {{#each stores}}this.listenTo({{this}}, this.onStoreChange);
+  componentDidMount() {
+    {{#each stores}}
+    this.listenTo({{this}}, this.onStoreChange);
     {{/each}}
   },
 
@@ -31,4 +34,4 @@ var {{name}} = React.createClass({ {{#if mixins}}
   }
 });
 
-export default {{name}};
+export default {{componentName}};
