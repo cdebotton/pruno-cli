@@ -91,6 +91,11 @@ var ReactGenerator = (function () {
           when: function () {
             return mixins.length > 0;
           }
+        }, {
+          name: "isRouteHandler",
+          type: "confirm",
+          message: "Is this component a route handler?",
+          "default": false
         }], function (params) {
           params.stores || (params.stores = []);
           params.mixins || (params.mixins = []);
@@ -99,13 +104,27 @@ var ReactGenerator = (function () {
             params.mixins.push("StoreListenerMixin");
           }
 
+          if (params.isRouteHandler) {
+            params.mixins.push("RouterStateMixin");
+            componentName += "Route";
+          }
+
           var opts = assign({ componentName: componentName, className: className }, {
             stores: params.stores,
-            mixins: params.mixins.join(", ")
+            mixins: params.mixins.join(", "),
+            isRouteHandler: params.isRouteHandler
           });
 
           var contents = _this.renderData("Component.js.hbs", opts);
-          var target = path.join(pwd(), _this.config.src, "components", componentName + ".js");
+
+          if (params.isRouteHandler) {
+            _this.ensurePath("route");
+            var componentType = "routes";
+          } else {
+            var componentType = "components";
+          }
+
+          var target = path.join(pwd(), _this.config.src, componentType, componentName + ".js");
 
           fs.writeFileSync(target, contents);
 
@@ -198,6 +217,28 @@ var ReactGenerator = (function () {
       writable: true,
       configurable: true
     },
+    onCreateMixin: {
+      value: function onCreateMixin(name, options) {
+        var _this = this;
+        var mixinName = inflection.transform(name.replace(/\-/g, "_"), ["titleize"]).replace(/\s/g, "") + "Mixin";
+
+        inquirer.prompt([{
+          type: "confirm",
+          name: "takesParams",
+          message: "Does this mixin take parameters?"
+        }], function (params) {
+          var takesParams = params.takesParams;
+          var opts = { mixinName: mixinName, takesParams: takesParams };
+          var contents = _this.renderData("Mixin.js.hbs", opts);
+          var target = path.join(pwd(), _this.config.src, "mixins", "" + mixinName + ".js");
+
+          fs.writeFileSync(target, contents);
+          log("Created", target.yellow.underline + ".");
+        });
+      },
+      writable: true,
+      configurable: true
+    },
     renderData: {
       value: function renderData(tplFile, opts) {
         var hbsPath = path.join(__dirname, "generators", tplFile);
@@ -248,6 +289,10 @@ Handlebars.registerHelper("camelcase", function (str) {
 
 Handlebars.registerHelper("actionify", function (str) {
   return "on" + str.charAt(0).toUpperCase() + str.slice(1);
+});
+
+Handlebars.registerHelper("storeState", function (str) {
+  return (str.charAt(0).toLowerCase() + str.slice(1)).replace(/Store$/, "");
 });
 
 module.exports = new ReactGenerator();

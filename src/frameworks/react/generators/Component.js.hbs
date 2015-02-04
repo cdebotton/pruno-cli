@@ -1,13 +1,37 @@
-import React from "react";{{#if stores}}
+import React from "react{{#if isRouteHandler}}/addons{{/if}}";{{#if stores}}
 {{#if stores}}import {StoreListenerMixin} from "fluxd";{{/if}}
 {{#each stores}}import {{this}} from "../stores/{{this}}.js";
-{{/each}}{{/if}}
+{{/each}}{{/if}}{{#if isRouteHandler}}
+import {RouteHandler, State as RouterStateMixin} from import "react-router";{{/if}}
+
 var {{componentName}} = React.createClass({ {{#if mixins}}
   mixins: [{{mixins}}],
+  {{/if}}{{#if isRouteHandler}}
+  statics: {
+    fetchData(params, query) {
+
+    },
+
+    willTransitionTo(transition, params) {
+
+    }
+  },
   {{/if}}
 
-  getInitialState() { {{#if stores}}{{#each stores}}
-    var {{camelcase this}} = {{this}}.getState().state;{{/each}}{{/if}}
+  propTypes: {
+
+  },
+
+  getInitialState() {
+{{#if stores}}
+    {{#each stores}}
+    var {{storeState this}} = {{this}}.getState().state;
+    {{/each}}
+    {{/if}}
+{{#if isRouteHandler}}    var params = this.getParams();
+    var query = this.getQuery();
+
+    {{/if}}
     return {};
   },
 
@@ -28,7 +52,7 @@ var {{componentName}} = React.createClass({ {{#if mixins}}
   render() {
     return (
       <div className="{{className}}">
-
+        {{#if isRouteHandler}}<RouteHandler />{{/if}}
       </div>
     )
   }

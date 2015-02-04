@@ -67,6 +67,11 @@ class ReactGenerator {
       message: 'Would you like to listen to any mixins?',
       choices: mixins,
       when: () => mixins.length > 0
+    }, {
+      name: 'isRouteHandler',
+      type: 'confirm',
+      message: 'Is this component a route handler?',
+      default: false
     }], (params) => {
       params.stores || (params.stores = []);
       params.mixins || (params.mixins = []);
@@ -75,13 +80,28 @@ class ReactGenerator {
         params.mixins.push('StoreListenerMixin');
       }
 
+      if (params.isRouteHandler) {
+        params.mixins.push('RouterStateMixin');
+        componentName += 'Route';
+      }
+
       var opts = assign({componentName, className}, {
         stores: params.stores,
-        mixins: params.mixins.join(', ')
+        mixins: params.mixins.join(', '),
+        isRouteHandler: params.isRouteHandler
       });
 
       var contents = this.renderData('Component.js.hbs', opts);
-      var target = path.join(pwd(), this.config.src, 'components', componentName + '.js');
+
+      if (params.isRouteHandler) {
+        this.ensurePath('route');
+        var componentType = 'routes';
+      }
+      else {
+        var componentType = 'components';
+      }
+
+      var target = path.join(pwd(), this.config.src, componentType, componentName + '.js');
 
       fs.writeFileSync(target, contents);
 
@@ -170,6 +190,27 @@ class ReactGenerator {
     });
   }
 
+  onCreateMixin(name, options) {
+    var mixinName = inflection.transform(
+      name.replace(/\-/g, '_'),
+      ['titleize']
+    ).replace(/\s/g, '') + 'Mixin';
+
+    inquirer.prompt([{
+      type: 'confirm',
+      name: 'takesParams',
+      message: 'Does this mixin take parameters?'
+    }], (params) => {
+      var {takesParams} = params;
+      var opts = {mixinName, takesParams};
+      var contents = this.renderData('Mixin.js.hbs', opts);
+      var target = path.join(pwd(), this.config.src, 'mixins', `${mixinName}.js`);
+
+      fs.writeFileSync(target, contents);
+      log('Created', target.yellow.underline + '.');
+    });
+  }
+
   renderData(tplFile, opts) {
     var hbsPath = path.join(__dirname, 'generators', tplFile);
     var hbs = fs.readFileSync(hbsPath).toString();
@@ -205,6 +246,10 @@ Handlebars.registerHelper('camelcase', (str) => {
 
 Handlebars.registerHelper('actionify', (str) => {
   return 'on' + str.charAt(0).toUpperCase() + str.slice(1);
+});
+
+Handlebars.registerHelper('storeState', (str) => {
+  return (str.charAt(0).toLowerCase() + str.slice(1)).replace(/Store$/, '');
 });
 
 export default new ReactGenerator();
