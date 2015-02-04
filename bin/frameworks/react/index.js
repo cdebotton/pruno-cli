@@ -296,4 +296,16 @@ Handlebars.registerHelper("storeState", function (str) {
   return (str.charAt(0).toLowerCase() + str.slice(1)).replace(/Store$/, "");
 });
 
+Handlebars.registerHelper("formatList", function (arr, indents) {
+  var tabs = Array(indents).join(0).split(0).map(function (t) {
+    return "\t";
+  }).join("");
+
+  var list = arr.map(function (item, i) {
+    return "'" + item + "'";
+  }).join(",\r\n" + tabs);
+
+  return new Handlebars.SafeString(list);
+});
+
 module.exports = new ReactGenerator();

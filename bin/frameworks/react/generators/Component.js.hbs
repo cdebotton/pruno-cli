@@ -2,7 +2,7 @@ import React from "react{{#if isRouteHandler}}/addons{{/if}}";{{#if stores}}
 {{#if stores}}import {StoreListenerMixin} from "fluxd";{{/if}}
 {{#each stores}}import {{this}} from "../stores/{{this}}.js";
 {{/each}}{{/if}}{{#if isRouteHandler}}
-import {RouteHandler, State as RouterStateMixin} from import "react-router";{{/if}}
+import {RouteHandler, State as RouterStateMixin} from "react-router";{{/if}}
 
 var {{componentName}} = React.createClass({ {{#if mixins}}
   mixins: [{{mixins}}],

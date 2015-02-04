@@ -253,4 +253,14 @@ Handlebars.registerHelper('storeState', (str) => {
   return (str.charAt(0).toLowerCase() + str.slice(1)).replace(/Store$/, '');
 });
 
+Handlebars.registerHelper('formatList', (arr, indents) => {
+  var tabs = Array(indents).join(0).split(0).map(t => '\t').join('');
+
+  var list = arr.map((item, i) => {
+    return `'${item}'`;
+  }).join(`,\r\n${tabs}`);
+
+  return new Handlebars.SafeString(list);
+});
+
 export default new ReactGenerator();
