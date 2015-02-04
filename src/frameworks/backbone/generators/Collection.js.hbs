@@ -1,10 +1,12 @@
 import {Collection} from "backbone";
 import {{modelName}} from "../models/{{modelName}}.js";
 
-export default Collection.extend({
+var {{collectionName}} = Collection.extend({
   model: {{modelName}},
 
   initialize() {
 
   }
 });
+
+export default {{collectionName}};

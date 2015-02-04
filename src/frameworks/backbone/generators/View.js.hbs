@@ -1,8 +1,12 @@
 import {View} from "backbone";
 
-export View.extend({
-    template: require('../hbs/{{tplName}}.hbs'),
+var {{viewName}} = View.extend({
+    template: require('../hbs/{{templateName}}.hbs'),
     events: {
+
+    },
+
+    initialize() {
 
     },
 
@@ -14,3 +18,5 @@ export View.extend({
       return this;
     }
 });
+
+export default {{viewName}};

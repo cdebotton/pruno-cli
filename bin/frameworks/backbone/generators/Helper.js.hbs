@@ -1,7 +1,10 @@
 import Handlebars from "handlebars";
 
-export default Handlebars.registerHelper((str, opts) => {
-  var newString = str;
+var {{helperName}} = Handlebars.registerHelper((str, opts) => {
+  var newString = str + ' - <strong>{{helperName}}</strong>';
 
   return new Handlebars.SafeSring(newString);
 });
+
+
+export default {{helperName}};
