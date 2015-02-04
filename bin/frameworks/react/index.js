@@ -105,8 +105,68 @@ var ReactGenerator = (function () {
           });
 
           var contents = _this.renderData("Component.js.hbs", opts);
+          var target = path.join(pwd(), _this.config.src, "components", componentName + ".js");
 
-          fs.writeFileSync(path.join(pwd(), _this.config.src, "components", componentName + ".js"), contents);
+          fs.writeFileSync(target, contents);
+
+          log("Created", target.yellow.underline + ".");
+        });
+      },
+      writable: true,
+      configurable: true
+    },
+    onCreateStore: {
+      value: function onCreateStore(name, options) {
+        var _this = this;
+        var storeName = inflection.transform(name.replace(/-/g, "_"), ["classify"]) + "Store";
+        var actions = fs.readdirSync(path.join(pwd(), this.config.src, "actions")).filter(function (file) {
+          return /\.js$/.exec(file);
+        }).map(function (file) {
+          return file.replace(/\.js$/, "");
+        });
+
+        inquirer.prompt([{
+          name: "actions",
+          type: "checkbox",
+          choices: actions,
+          message: "Would you like to bind any actions?"
+        }], function (params) {
+          params.actions || (params.actions = []);
+          var opts = {};
+          var actionList = [];
+
+          var actions = params.actions.reduce(function (memo, actionFile) {
+            var actionData = fs.readFileSync(path.join(pwd(), _this.config.src, "actions", actionFile + ".js")).toString().split(/[\r\n]/);
+
+            var searching = false;
+
+            while (actionData.length > 0) {
+              var line = actionData.shift();
+
+              if (line.match(/generateActions\(/)) {
+                searching = true;
+              }
+
+              if (searching && /'(.+)'/.exec(line)) {
+                actionList.push(/'(.+)'/.exec(line)[1]);
+              }
+
+              if (line.match(/\);/)) {
+                searching = false;
+              }
+            }
+          }, []);
+
+          opts.actions = params.actions;
+          opts.actionItems = actionList;
+          opts.storeName = storeName;
+
+          var contents = _this.renderData("Store.js.hbs", opts);
+          var target = path.join(pwd(), _this.config.src, "stores", storeName + ".js");
+
+          fs.writeFileSync(target, contents);
+
+          log("Created", target.yellow.underline + ".");
         });
       },
       writable: true,
@@ -158,6 +218,10 @@ var ReactGenerator = (function () {
 
 Handlebars.registerHelper("camelcase", function (str) {
   return inflection.camelize(str, true);
+});
+
+Handlebars.registerHelper("actionify", function (str) {
+  return "on" + str.charAt(0).toUpperCase() + str.slice(1);
 });
 
 module.exports = new ReactGenerator();

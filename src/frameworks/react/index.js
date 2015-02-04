@@ -81,11 +81,64 @@ class ReactGenerator {
       });
 
       var contents = this.renderData('Component.js.hbs', opts);
+      var target = path.join(pwd(), this.config.src, 'components', componentName + '.js');
 
-      fs.writeFileSync(
-        path.join(pwd(), this.config.src, 'components', componentName + '.js'),
-        contents
-      );
+      fs.writeFileSync(target, contents);
+
+      log('Created', target.yellow.underline + '.');
+    });
+  }
+
+  onCreateStore(name, options) {
+    var storeName = inflection.transform(name.replace(/-/g, '_'), ['classify']) + 'Store';
+    var actions = fs.readdirSync(path.join(pwd(), this.config.src, 'actions'))
+      .filter(file => /\.js$/.exec(file))
+      .map(file => file.replace(/\.js$/, ''));
+
+    inquirer.prompt([{
+      name: 'actions',
+      type: 'checkbox',
+      choices: actions,
+      message: 'Would you like to bind any actions?'
+    }], (params) => {
+      params.actions || (params.actions = []);
+      var opts = {};
+      var actionList = [];
+
+      var actions = params.actions.reduce((memo, actionFile) => {
+        var actionData = fs.readFileSync(
+          path.join(pwd(), this.config.src, 'actions', actionFile + '.js')
+        ).toString().split(/[\r\n]/);
+
+        var searching = false;
+
+        while (actionData.length > 0) {
+          var line = actionData.shift();
+
+          if (line.match(/generateActions\(/)) {
+            searching = true;
+          }
+
+          if (searching && /'(.+)'/.exec(line)) {
+            actionList.push(/'(.+)'/.exec(line)[1]);
+          }
+
+          if (line.match(/\);/)) {
+            searching = false;
+          }
+        }
+      }, []);
+
+      opts.actions = params.actions;
+      opts.actionItems = actionList;
+      opts.storeName = storeName;
+
+      var contents = this.renderData('Store.js.hbs', opts);
+      var target = path.join(pwd(), this.config.src, 'stores', storeName + '.js');
+
+      fs.writeFileSync(target, contents);
+
+      log('Created', target.yellow.underline + '.');
     });
   }
 
@@ -120,6 +173,10 @@ class ReactGenerator {
 
 Handlebars.registerHelper('camelcase', (str) => {
   return inflection.camelize(str, true);
+});
+
+Handlebars.registerHelper('actionify', (str) => {
+  return 'on' + str.charAt(0).toUpperCase() + str.slice(1);
 });
 
 export default new ReactGenerator();

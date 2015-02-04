@@ -1,10 +1,18 @@
 import flux from "..";{{#if actions}}{{#each actions}}
 import {{this}} from "../actions/{{this}}";{{/each}}{{/if}}
 
-class {{name}}Store {
+class {{storeName}} {
   constructor() { {{#if actions}}{{#each actions}}
     this.bindActions({{this}});{{/each}}{{/if}}
   }
+  {{#if actionItems}}
+  {{#each actionItems}}
+
+
+  {{actionify this}}(data = {}) {
+
+  }{{/each}}
+  {{/if}}
 }
 
-export default flux.createStore({{name}}Store);
+export default flux.createStore({{storeName}});

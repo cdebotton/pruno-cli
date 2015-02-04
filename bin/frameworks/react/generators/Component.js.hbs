@@ -3,11 +3,11 @@ import React from "react";{{#if stores}}
 {{#each stores}}import {{this}} from "../stores/{{this}}.js";
 {{/each}}{{/if}}
 var {{componentName}} = React.createClass({ {{#if mixins}}
-  mixins: [{{mixins}}],{{/if}}
+  mixins: [{{mixins}}],
+  {{/if}}
 
   getInitialState() { {{#if stores}}{{#each stores}}
-    var {{camelcase this}} = {{this}}.getState().state;{{/each}}
-    {{/if}}
+    var {{camelcase this}} = {{this}}.getState().state;{{/each}}{{/if}}
     return {};
   },
 
