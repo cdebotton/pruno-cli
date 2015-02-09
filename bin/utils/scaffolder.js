@@ -40,7 +40,7 @@ var generateReact = function (options) {
     return log(err);
   });
 
-  addMixes(["js", "stylus", "http", "publish", "jade"], {
+  addMixes(["del", "js", "stylus", "http", "publish", "jade"], {
     js: { es6: true },
     stylus: { normalize: true, "font-awesome": true }
   });
@@ -57,7 +57,7 @@ var generateBackbone = function (options) {
 
   saveDev(["hbsfy", "handlebars"]);
 
-  addMixes(["js", "stylus", "http", "publish", "jade"], {
+  addMixes(["del", "js", "stylus", "http", "publish", "jade"], {
     js: { es6: true, handlebars: true },
     stylus: { normalize: true, "font-awesome": true }
   });

@@ -29,7 +29,7 @@ var generateReact = (options) => {
     .then(() => log('Installed front-end assets for React.'))
     .catch(err => log(err));
 
-  addMixes(['js', 'stylus', 'http', 'publish', 'jade'], {
+  addMixes(['del', 'js', 'stylus', 'http', 'publish', 'jade'], {
     js: {es6: true},
     stylus: {normalize: true, 'font-awesome': true}
   });
@@ -48,7 +48,7 @@ var generateBackbone = (options) => {
 
   saveDev(['hbsfy', 'handlebars']);
 
-  addMixes(['js', 'stylus', 'http', 'publish', 'jade'], {
+  addMixes(['del', 'js', 'stylus', 'http', 'publish', 'jade'], {
     js: {es6: true, handlebars: true},
     stylus: {normalize: true, 'font-awesome': true}
   });
