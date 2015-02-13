@@ -32,9 +32,21 @@ var db = function (program) {
     });
   });
 
-  program.command("db:migrate").description("Run all pending migrations.").action(function () {});
+  program.command("db:migrate").description("Run all pending migrations.").action(function () {
+    var migration = spawn("sequelize", ["db:migrate"], {
+      stdio: "inherit",
+      env: env,
+      cwd: pwd()
+    });
+  });
 
-  program.command("db:rollback").description("Roll back migrations").action(function () {});
+  program.command("db:rollback").description("Roll back migrations").action(function () {
+    var migration = spawn("sequelize", ["db:migrate:undo"], {
+      stdio: "inherit",
+      env: env,
+      cwd: pwd()
+    });
+  });
 
   return program;
 };

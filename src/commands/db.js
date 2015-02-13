@@ -32,13 +32,21 @@ var db = (program) => {
   program.command('db:migrate')
     .description('Run all pending migrations.')
     .action(() => {
-
+      var migration = spawn('sequelize', ['db:migrate'], {
+        stdio: 'inherit',
+        env: env,
+        cwd: pwd()
+      });
     });
 
   program.command('db:rollback')
     .description('Roll back migrations')
     .action(() => {
-
+      var migration = spawn('sequelize', ['db:migrate:undo'], {
+        stdio: 'inherit',
+        env: env,
+        cwd: pwd()
+      });
     });
 
   return program;
