@@ -14,6 +14,7 @@ var _shelljs = require("shelljs");
 
 var pwd = _shelljs.pwd;
 var rm = _shelljs.rm;
+var cp = _shelljs.cp;
 var _fs = require("fs");
 
 var readFileSync = _fs.readFileSync;
@@ -99,11 +100,82 @@ var Generator = (function () {
           src: params.src,
           dist: params.dist,
           config: params.config,
-          type: params.type.toLowerCase()
+          type: params.type.toLowerCase(),
+          db: params.db,
+          dbType: params.dbType.toLowerCase(),
+          koa: params.koa,
+          api: params.api
         };
 
         Logger.log("Creating", ".prunorc".yellow.underline);
         tpl(params).to(".prunorc");
+      },
+      writable: true,
+      configurable: true
+    },
+    eslintrc: {
+      value: function eslintrc(params) {
+        var hbsPath = join(__dirname, "templates", ".eslintrc.hbs");
+        var hbs = readFileSync(hbsPath).toString();
+        var tpl = compile(hbs);
+
+        Logger.log("Creating", ".eslintrc".yellow.underline);
+        tpl().to(".eslintrc");
+      },
+      writable: true,
+      configurable: true
+    },
+    sequelizerc: {
+      value: function sequelizerc(params) {
+        var hbsPath = join(__dirname, "templates", ".sequelizerc.hbs");
+        var hbs = readFileSync(hbsPath).toString();
+        var tpl = compile(hbs);
+
+        Logger.log("Creating", ".sequelizerc".yellow.underline);
+        tpl(params).to(".sequelizerc");
+      },
+      writable: true,
+      configurable: true
+    },
+    serverRegister: {
+      value: function serverRegister(params) {
+        var hbsPath = join(__dirname, "frameworks/isomorphic/generators/serverRegister.js.hbs");
+        var hbs = readFileSync(hbsPath).toString();
+        var tpl = compile(hbs);
+
+        Logger.log("Creating", "server.js".yellow.underline);
+        tpl(params).to(join(pwd(), "server.js"));
+      },
+      writable: true,
+      configurable: true
+    },
+    server: {
+      value: function server(params) {
+        var hbsPath = join(__dirname, "frameworks/isomorphic/generators/server.js.hbs");
+        var hbs = readFileSync(hbsPath).toString();
+        var tpl = compile(hbs);
+
+        buildPath(params.api);
+        buildPath(join(params.api, "controllers"));
+        cp("-rf", join(__dirname, "frameworks/isomorphic/api/*"), join(pwd(), params.api));
+
+        Logger.log("Creating", "$/{params.api}/index.js".yellow.underline);
+        tpl(params).to(join(pwd(), params.api, "index.js"));
+      },
+      writable: true,
+      configurable: true
+    },
+    dbAssets: {
+      value: function dbAssets(params) {
+        var hbsPath = join(__dirname, "frameworks/isomorphic/generators/models.js.hbs");
+        var hbs = readFileSync(hbsPath).toString();
+        var tpl = compile(hbs);
+
+        buildPath(join(params.api, "models"));
+        buildPath(join(params.api, "migrations"));
+
+        Logger.log("Creating", "$/{params.api}/models/index.js".yellow.underline);
+        tpl(params).to(join(pwd(), params.api, "models/index.js"));
       },
       writable: true,
       configurable: true

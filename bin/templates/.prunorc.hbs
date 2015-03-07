@@ -4,5 +4,7 @@ module.exports = {
   config: "{{config}}",
   dist: "{{dist}}",
   src: "{{src}}",
-  type: "{{type}}"
+  type: "{{type}}"{{#if db}},
+  db: "{{dbType}}"{{/if}}{{#if koa}}
+  api: "{{api}}"{{/if}}
 };

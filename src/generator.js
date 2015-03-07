@@ -1,7 +1,7 @@
 import {compile} from "handlebars";
 import assign from "object-assign";
 import {join} from "path";
-import {pwd, rm} from "shelljs";
+import {pwd, rm, cp} from "shelljs";
 import {readFileSync, existsSync} from "fs";
 import inflection from "inflection";
 import buildPath from "./utils/build-path";
@@ -63,11 +63,71 @@ export default class Generator {
       src: params.src,
       dist: params.dist,
       config: params.config,
-      type: params.type.toLowerCase()
+      type: params.type.toLowerCase(),
+      db: params.db,
+      dbType: params.dbType.toLowerCase(),
+      koa: params.koa,
+      api: params.api
     };
 
     Logger.log('Creating', '.prunorc'.yellow.underline);
     tpl(params).to('.prunorc');
+  }
+
+  static eslintrc(params) {
+    let hbsPath = join(__dirname, 'templates', '.eslintrc.hbs');
+    let hbs = readFileSync(hbsPath).toString();
+    let tpl = compile(hbs);
+
+    Logger.log('Creating', '.eslintrc'.yellow.underline);
+    tpl().to('.eslintrc');
+  }
+
+  static sequelizerc(params) {
+    let hbsPath = join(__dirname, 'templates', '.sequelizerc.hbs');
+    let hbs = readFileSync(hbsPath).toString();
+    let tpl = compile(hbs);
+
+    Logger.log('Creating', '.sequelizerc'.yellow.underline);
+    tpl(params).to('.sequelizerc');
+  }
+
+  static serverRegister(params) {
+    let hbsPath = join(__dirname, 'frameworks/isomorphic/generators/serverRegister.js.hbs');
+    let hbs = readFileSync(hbsPath).toString();
+    let tpl = compile(hbs);
+
+    Logger.log('Creating', 'server.js'.yellow.underline);
+    tpl(params).to(join(pwd(), 'server.js'));
+  }
+
+  static server(params) {
+    let hbsPath = join(__dirname, 'frameworks/isomorphic/generators/server.js.hbs');
+    let hbs = readFileSync(hbsPath).toString();
+    let tpl = compile(hbs);
+
+    buildPath(params.api);
+    buildPath(join(params.api, 'controllers'));
+    cp(
+      '-rf',
+      join(__dirname, 'frameworks/isomorphic/api/*'),
+      join(pwd(), params.api)
+    );
+
+    Logger.log('Creating', `$/{params.api}/index.js`.yellow.underline);
+    tpl(params).to(join(pwd(), params.api, 'index.js'));
+  }
+
+  static dbAssets(params) {
+    let hbsPath = join(__dirname, 'frameworks/isomorphic/generators/models.js.hbs');
+    let hbs = readFileSync(hbsPath).toString();
+    let tpl = compile(hbs);
+
+    buildPath(join(params.api, 'models'));
+    buildPath(join(params.api, 'migrations'));
+
+    Logger.log('Creating', `$/{params.api}/models/index.js`.yellow.underline);
+    tpl(params).to(join(pwd(), params.api, 'models/index.js'));
   }
 
   constructor() {

@@ -1,0 +1,46 @@
+"use strict";
+
+import koa from "koa";
+import path from "path";
+import json from "koa-json";
+import { join } from "path";
+import alt from ".{{src}}/alt";
+import mount from "koa-mount";
+import Router from "koa-router";
+import routes from ".{{src}}/routes";
+import compress from "koa-compress";
+import requireDir from "require-dir";
+import serveStatic from "koa-static";
+import isomorphic from "koa-isomorphic";
+import bodyparser from "koa-bodyparser";
+
+const ENV = process.env.NODE_ENV || "development";
+const PORT = process.env.PORT || 3000;
+
+const app = koa();
+const api = new Router();
+const controllers = requireDir(path.join(__dirname, "controllers"));
+
+Object.keys(controllers)
+  .forEach(key => {
+    try {
+      controllers[key](api)
+    } catch (err) { /* Invalid controller */ }
+  });
+
+app.use(compress());
+app.use(bodyparser());
+app.use(json({ pretty: ENV === "development" }));
+app.use(serveStatic(join(__dirname, ".{{dist}}")));
+app.use(mount("/api", api.middleware()));
+app.use(isomorphic({ routes, alt }));
+
+app.listen(PORT, (err) => {
+  if (err) {
+    throw err;
+  }
+
+  if (ENV === "development") {
+    console.log(`App running on port [${PORT}] in [${ENV}] mode.`);
+  }
+});
