@@ -24,7 +24,7 @@ const controllers = requireDir(path.join(__dirname, "controllers"));
 Object.keys(controllers)
   .forEach(key => {
     try {
-      controllers[key](api)
+      controllers[key](api);
     } catch (err) { /* Invalid controller */ }
   });
 
