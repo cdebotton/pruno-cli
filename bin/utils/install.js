@@ -42,4 +42,6 @@ var install = function (method, packages) {
     });
   });
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
