@@ -100,11 +100,7 @@ var Generator = (function () {
           src: params.src,
           dist: params.dist,
           config: params.config,
-          type: params.type.toLowerCase(),
-          db: params.db,
-          dbType: params.dbType.toLowerCase(),
-          koa: params.koa,
-          api: params.api
+          type: params.type.toLowerCase()
         };
 
         Logger.log("Creating", ".prunorc".yellow.underline);
