@@ -1,6 +1,6 @@
 {
   "name": "pruno-cli",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A CLI tool for scaffolding projects that use the pruno build tool and a generator for creating components.",
   "main": "./index.js",
   "bin": {
