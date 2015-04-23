@@ -18,7 +18,7 @@ module.exports = function (program) {
   });
 
   program.command("build [env]").alias("b").description("Run the default registered tasks. Proxies `gulp`.").action(function () {
-    var env = arguments[0] === undefined ? "develoment" : arguments[0];
+    var env = arguments[0] === undefined ? "development" : arguments[0];
     var env = assign({}, process.env, { NODE_ENV: env });
     var watcher = spawn("gulp", [], {
       stdio: "inherit",

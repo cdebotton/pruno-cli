@@ -20,7 +20,7 @@ export default (program) => {
   program.command('build [env]')
     .alias('b')
     .description('Run the default registered tasks. Proxies `gulp`.')
-    .action((env = 'develoment') => {
+    .action((env = 'development') => {
       let env = assign({}, process.env, { NODE_ENV: env });
       let watcher = spawn('gulp', [], {
         stdio: 'inherit',
